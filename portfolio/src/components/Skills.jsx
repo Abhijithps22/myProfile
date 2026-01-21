@@ -45,12 +45,14 @@ const itemVariants = {
 };
 
 const Skills = () => {
+    const constraintsRef = React.useRef(null);
+
     return (
         <section id="skills" className="py-32 bg-background relative overflow-hidden">
             {/* Decorative background element */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-primary/5 rounded-full blur-3xl -z-10" />
 
-            <div className="container mx-auto px-6">
+            <div className="container mx-auto px-6" ref={constraintsRef}>
                 <div className="max-w-2xl mx-auto text-center mb-20">
                     <motion.h2
                         initial={{ opacity: 0, y: -20 }}
@@ -81,20 +83,24 @@ const Skills = () => {
                         <motion.div
                             key={skill.name}
                             variants={itemVariants}
-                            className="group relative"
+                            className="group relative cursor-grab active:cursor-grabbing"
+                            drag
+                            dragConstraints={constraintsRef}
+                            dragElastic={0.2}
+                            whileDrag={{ scale: 1.1, zIndex: 50 }}
                         >
                             <motion.div
                                 animate={{ y: [0, -10, 0] }}
                                 transition={{
-                                    duration: 2 + (index % 3) + (index % 2) * 0.5, // Deterministic duration between 2-4.5s
+                                    duration: 2 + (index % 3) + (index % 2) * 0.5,
                                     repeat: Infinity,
                                     repeatType: "reverse",
                                     ease: "easeInOut",
-                                    delay: (index % 5) * 0.2 // Deterministic delay
+                                    delay: (index % 5) * 0.2
                                 }}
-                                className="h-full"
+                                className="h-full relative"
                             >
-                                <div className="h-full flex flex-col items-center justify-center p-6 rounded-2xl bg-card border border-border/50 hover:border-primary/50 shadow-sm hover:shadow-lg transition-all duration-300 relative overflow-hidden">
+                                <div className="h-full flex flex-col items-center justify-center p-6 rounded-2xl bg-card border border-border/50 hover:border-primary/50 shadow-sm hover:shadow-lg transition-all duration-300 relative overflow-hidden pointer-events-none select-none">
                                     {/* Bubble Effect */}
                                     <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                                     <div className="absolute -bottom-10 -right-10 w-24 h-24 bg-primary/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500" />
@@ -105,6 +111,12 @@ const Skills = () => {
                                     <span className="font-medium text-sm text-muted-foreground group-hover:text-foreground transition-colors lowercase relative z-10">
                                         {skill.name}
                                     </span>
+                                </div>
+
+                                {/* Drag Tooltip */}
+                                <div className="absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-1 bg-primary text-primary-foreground text-[10px] font-bold rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap shadow-md z-50">
+                                    Drag & Drop Anywhere
+                                    <div className="absolute bottom-[-4px] left-1/2 -translate-x-1/2 w-2 h-2 bg-primary rotate-45" />
                                 </div>
                             </motion.div>
                         </motion.div>

@@ -9,7 +9,7 @@ const Layout = ({ children }) => {
                 {children}
             </main>
             <footer className="py-8 text-center text-muted-foreground border-t border-border/40">
-                <p>© {new Date().getFullYear()} Abhijith. All rights reserved.</p>
+                <p>© {new Date().getFullYear()}-All rights reserved.</p>
             </footer>
         </div>
     );
