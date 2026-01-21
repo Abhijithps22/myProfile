@@ -60,7 +60,7 @@ const GravityHero = () => {
                 </div>
             </motion.div>
 
-            {/* Floating Icons */}
+            {/* Floating Icons - Responsive positioning via scale factor */}
             <FloatingIcon icon={SiReact} color="text-cyan-400" x={-160} y={-120} delay={0} mouseX={mouseX} mouseY={mouseY} />
             <FloatingIcon icon={SiNextdotjs} color="text-foreground" x={180} y={-100} delay={1} mouseX={mouseX} mouseY={mouseY} />
             <FloatingIcon icon={SiTypescript} color="text-blue-500" x={-140} y={140} delay={2} mouseX={mouseX} mouseY={mouseY} />
@@ -77,9 +77,27 @@ const GravityHero = () => {
 };
 
 const FloatingIcon = ({ icon: Icon, color, x, y, delay, mouseX, mouseY }) => {
+    const [scale, setScale] = React.useState(1);
+
+    // Adjust positioning based on screen size
+    React.useEffect(() => {
+        const updateScale = () => {
+            // On mobile (< 768px), use 60% of the position values for more spacing
+            // On desktop, use full position values
+            setScale(window.innerWidth < 768 ? 0.6 : 1);
+        };
+
+        updateScale();
+        window.addEventListener('resize', updateScale);
+        return () => window.removeEventListener('resize', updateScale);
+    }, []);
+
+    const scaledX = x * scale;
+    const scaledY = y * scale;
+
     // Inverse movement to mouse for parallax depth
-    const moveX = useTransform(mouseX, [-0.5, 0.5], [x + 30, x - 30]);
-    const moveY = useTransform(mouseY, [-0.5, 0.5], [y + 30, y - 30]);
+    const moveX = useTransform(mouseX, [-0.5, 0.5], [scaledX + 30, scaledX - 30]);
+    const moveY = useTransform(mouseY, [-0.5, 0.5], [scaledY + 30, scaledY - 30]);
 
     // Smooth spring movement
     const smoothX = useSpring(moveX, { stiffness: 60, damping: 20 });
@@ -89,14 +107,14 @@ const FloatingIcon = ({ icon: Icon, color, x, y, delay, mouseX, mouseY }) => {
         <motion.div
             style={{ x: smoothX, y: smoothY }}
             animate={{
-                y: [y - 15, y + 15, y - 15],
+                y: [scaledY - 15, scaledY + 15, scaledY - 15],
                 rotate: [0, 10, -10, 0]
             }}
             transition={{
                 y: { duration: 5, repeat: Infinity, ease: "easeInOut", delay },
                 rotate: { duration: 8, repeat: Infinity, ease: "easeInOut", delay }
             }}
-            className={`absolute text-4xl ${color} bg-background/30 backdrop-blur-md p-4 rounded-full border border-white/10 shadow-xl`}
+            className={`absolute text-3xl mt-10 md:text-4xl ${color} bg-background/30 backdrop-blur-md p-3 md:p-4 rounded-full border border-white/10 shadow-xl`}
         >
             <Icon />
         </motion.div>

@@ -64,9 +64,9 @@ const CustomCursor = () => {
 
     return (
         <>
-            {/* Main Cursor Follower */}
+            {/* Main Cursor Follower - Hidden on mobile */}
             <motion.div
-                className="fixed top-0 left-0 w-8 h-8 border border-primary/50 rounded-full pointer-events-none z-[9999] mix-blend-difference"
+                className="fixed top-0 left-0 w-8 h-8 border border-primary/50 rounded-full pointer-events-none z-[9999] mix-blend-difference hidden md:block"
                 style={{
                     x: cursorX,
                     y: cursorY,
@@ -74,9 +74,9 @@ const CustomCursor = () => {
                     backgroundColor: isHovered ? "rgba(255, 255, 255, 0.1)" : "transparent",
                 }}
             />
-            {/* Inner Dot (follows directly) */}
+            {/* Inner Dot (follows directly) - Hidden on mobile */}
             <div
-                className="fixed top-0 left-0 w-2 h-2 bg-primary rounded-full pointer-events-none z-[9999] mix-blend-difference"
+                className="fixed top-0 left-0 w-2 h-2 bg-primary rounded-full pointer-events-none z-[9999] mix-blend-difference hidden md:block"
                 ref={(ref) => {
                     if (ref) {
                         const updateDot = (e) => {

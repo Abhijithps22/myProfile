@@ -47,9 +47,75 @@ const Projects = () => {
                     </p>
                 </motion.div>
 
-                <div className="relative max-w-4xl mx-auto">
+                {/* Mobile: Horizontal Scroll Container */}
+                <div className="md:hidden overflow-x-auto overflow-y-visible pb-8 -mx-6 px-6 scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent">
+                    <div className="relative flex gap-6 min-w-max pb-12">
+                        {/* Horizontal Line for Mobile */}
+                        <div className="absolute left-0 right-0 bottom-4 h-0.5 bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
+
+                        {projects.map((project, index) => (
+                            <motion.div
+                                key={index}
+                                initial={{ opacity: 0, x: 50 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                viewport={{ once: true, margin: "-50px" }}
+                                transition={{ duration: 0.6, delay: index * 0.1 }}
+                                className="relative flex-shrink-0 w-[85vw] max-w-sm"
+                            >
+                                {/* Timeline Dot - Mobile Horizontal */}
+                                <div className="absolute left-1/2 -translate-x-1/2 bottom-0 z-10">
+                                    <motion.div
+                                        initial={{ scale: 0 }}
+                                        whileInView={{ scale: 1 }}
+                                        transition={{ type: "spring", stiffness: 300, damping: 20, delay: 0.2 }}
+                                        className="w-8 h-8 rounded-full bg-background border-4 border-primary shadow-[0_0_15px_rgba(59,130,246,0.5)] flex items-center justify-center"
+                                    >
+                                        <motion.div
+                                            animate={{ scale: [1, 1.2, 1] }}
+                                            transition={{ repeat: Infinity, duration: 2 }}
+                                            className="w-2.5 h-2.5 bg-primary rounded-full"
+                                        />
+                                    </motion.div>
+                                </div>
+
+                                {/* Content Card - Mobile */}
+                                <div className="p-6 rounded-2xl border bg-card/80 backdrop-blur-sm shadow-xl transition-all duration-300 mb-16">
+                                    <div className="flex items-center gap-2 mb-3 text-xs text-primary font-mono font-medium">
+                                        <Calendar size={14} />
+                                        <span>{project.date}</span>
+                                    </div>
+
+                                    <h3 className="text-xl font-bold mb-3">{project.title}</h3>
+                                    <p className="text-muted-foreground mb-6 leading-relaxed text-sm">
+                                        {project.description}
+                                    </p>
+
+                                    <div className="flex flex-wrap gap-2 mb-6">
+                                        {project.tags.map(tag => (
+                                            <Badge key={tag} variant="secondary" className="text-xs font-normal px-2.5 py-1">
+                                                {tag}
+                                            </Badge>
+                                        ))}
+                                    </div>
+
+                                    <div className="flex gap-3">
+                                        <Button size="sm" variant="outline" className="flex-1">
+                                            <Github className="w-4 h-4 mr-2" /> Code
+                                        </Button>
+                                        <Button size="sm" className="flex-1">
+                                            <ExternalLink className="w-4 h-4 mr-2" /> Live
+                                        </Button>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Desktop: Vertical Alternating Layout */}
+                <div className="hidden md:block relative max-w-4xl mx-auto">
                     {/* Vertical Line - Goes through dots */}
-                    <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-transparent via-primary/50 to-transparent -translate-x-1/2" />
+                    <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-transparent via-primary/50 to-transparent -translate-x-1/2" />
 
                     {projects.map((project, index) => (
                         <motion.div
@@ -62,7 +128,7 @@ const Projects = () => {
                                 }`}
                         >
                             {/* Timeline Dot with Bounce Animation */}
-                            <div className="absolute left-8 md:left-1/2 -translate-x-1/2 z-10">
+                            <div className="absolute left-1/2 -translate-x-1/2 z-10">
                                 <motion.div
                                     initial={{ scale: 0 }}
                                     whileInView={{ scale: 1 }}
@@ -78,7 +144,7 @@ const Projects = () => {
                             </div>
 
                             {/* Content Card */}
-                            <div className={`ml-24 md:ml-0 md:w-[42%] p-8 rounded-2xl border bg-card/80 backdrop-blur-sm hover:shadow-2xl transition-all duration-300 relative group hover:-translate-y-1`}>
+                            <div className="md:w-[42%] p-8 rounded-2xl border bg-card/80 backdrop-blur-sm hover:shadow-2xl transition-all duration-300 relative group hover:-translate-y-1">
 
                                 <div className="flex items-center gap-2 mb-3 text-sm text-primary font-mono font-medium">
                                     <Calendar size={14} />
