@@ -1,11 +1,12 @@
 import React from "react";
 import { motion } from "framer-motion";
 import {
-    SiReact, SiNextdotjs, SiPostman, SiCss3,
+    SiReact, SiNextdotjs, SiPostman,
     SiTailwindcss, SiSass, SiHtml5, SiJavascript,
     SiTypescript, SiNodedotjs, SiPrisma, SiPostgresql,
     SiMongodb
 } from "react-icons/si";
+import { FaCss3Alt } from "react-icons/fa";
 import { TbBrandReactNative } from "react-icons/tb";
 
 const skills = [
@@ -13,7 +14,7 @@ const skills = [
     { name: "Next.js", icon: SiNextdotjs, color: "text-foreground" },
     { name: "React Native", icon: TbBrandReactNative, color: "text-cyan-400" },
     { name: "Postman", icon: SiPostman, color: "text-orange-500" },
-    { name: "CSS3", icon: SiCss3, color: "text-blue-500" },
+    { name: "CSS3", icon: FaCss3Alt, color: "text-blue-500" },
     { name: "Tailwind", icon: SiTailwindcss, color: "text-cyan-300" },
     { name: "SCSS", icon: SiSass, color: "text-pink-400" },
     { name: "HTML5", icon: SiHtml5, color: "text-orange-600" },
